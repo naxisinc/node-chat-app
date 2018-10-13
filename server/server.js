@@ -1,15 +1,24 @@
-const express = require('express');
 const path = require('path');
-
-const app = express();
+const http = require('http');
+const express = require('express');
+const socketIO = require('socket.io');
 
 const port = process.env.PORT || 3000;
 
-// Set Static Folder
-// console.log(__dirname);
-// console.log(path.join(__dirname, '../public'));
+var app = express();
+var server = http.createServer(app);
+var io = socketIO(server);
+
+io.on('connection', socket => {
+  console.log('New user coneccted');
+
+  socket.on('disconnect', socket => {
+    console.log('User was disconeccted');
+  });
+});
+
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
