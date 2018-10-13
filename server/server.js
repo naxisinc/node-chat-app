@@ -12,14 +12,20 @@ var io = socketIO(server);
 io.on('connection', socket => {
   console.log('New user coneccted');
 
-  // Emit Event to client
-  // socket.emit('newMessage', {
-  //   from: 'deglis',
-  //   text: 'Hello world',
-  //   createAt: 123
-  // });
+  // Getting Message for joined user
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Welcome to the chat app'
+  });
 
-  // Listening Event from the client
+  // Join notification for every body except to joined user
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'New user joined',
+    createAt: new Date().getTime()
+  });
+
+  // Listening Event after that Emit Event from all clients
   socket.on('createMessage', message => {
     console.log('createMessage', message);
     io.emit('newMessage', {
