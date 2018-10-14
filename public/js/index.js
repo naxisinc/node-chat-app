@@ -2,12 +2,6 @@ var socket = io();
 
 socket.on('connect', function() {
   console.log('Connected to server');
-
-  // Emit from the to server
-  // socket.emit('createMessage', {
-  //   from: 'pedro',
-  //   text: 'I am Pedro'
-  // });
 });
 
 // Listening to the server
@@ -15,6 +9,18 @@ socket.on('newMessage', function(msg) {
   // console.log(msg);
   var li = jQuery('<li></li>');
   li.text(`${msg.from}: ${msg.text}`);
+
+  jQuery('#messages').append(li);
+});
+
+// Listening to the server
+socket.on('newLocationMessage', function(msg) {
+  var li = jQuery('<li></li>');
+  var a = jQuery('<a target="_blank">My current location</a>');
+
+  li.text(`${msg.from}: `);
+  a.attr('href', msg.url);
+  li.append(a);
 
   jQuery('#messages').append(li);
 });
