@@ -23,3 +23,28 @@ ul {
 #msg {
   width: 40vw;
 }
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-rows: 80vh 20vh !important;
+  }
+  #msg,
+  #send-location,
+  #sendBtn,
+  .form-group {
+    margin: 0;
+    padding: 0;
+  }
+  #msg {
+    width: 60vw;
+    margin: 0.4rem !important;
+  }
+  #sendBtn {
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
+  }
+  #send-location {
+    padding-left: 5.2rem !important;
+    padding-right: 5.2rem !important;
+    margin-left: 0.4rem !important;
+  }
+}
