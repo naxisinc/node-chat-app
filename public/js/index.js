@@ -16,6 +16,7 @@ socket.on('newMessage', function(msg) {
   });
 
   jQuery('#messages').append(html);
+  scrollToBottom();
 });
 
 // Listening to the server
@@ -30,15 +31,7 @@ socket.on('newLocationMessage', function(msg) {
   });
 
   jQuery('#messages').append(html);
-
-  // var li = jQuery('<li></li>');
-  // var a = jQuery('<a target="_blank">My current location</a>');
-
-  // li.text(`${msg.from} ${formattedTime}: `);
-  // a.attr('href', msg.url);
-  // li.append(a);
-
-  // jQuery('#messages').append(li);
+  scrollToBottom();
 });
 
 jQuery('#message-form').on('submit', function(e) {
@@ -79,6 +72,26 @@ locationBtn.on('click', function() {
     }
   );
 });
+
+function scrollToBottom() {
+  // Selectors
+  var messages = jQuery('#messages');
+  var newMessage = messages.children('li:last-child');
+
+  // Heights
+  var clientHeight = messages.prop('clientHeight');
+  var scrollTop = messages.prop('scrollTop');
+  var scrollHeight = messages.prop('scrollHeight');
+  var newMessageHeight = newMessage.innerHeight();
+  var lastMessageHeight = newMessage.prev().innerHeight();
+
+  if (
+    scrollTop + clientHeight + newMessageHeight + lastMessageHeight >=
+    scrollHeight
+  ) {
+    messages.scrollTop(scrollHeight);
+  }
+}
 
 socket.on('disconnect', function() {
   console.log('Disconnected from server');
